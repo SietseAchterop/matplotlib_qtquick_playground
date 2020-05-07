@@ -23,6 +23,7 @@ from PyQt5.QtGui import QGuiApplication, QColor, QImage, QPixmap
 # from PyQt5.QtWidgets import QApplication
 from PyQt5.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PyQt5.QtQuick import QQuickImageProvider
+from PyQt5.Qt import PYQT_VERSION_STR
 
 import matplotlib
 matplotlib.use('Agg')
@@ -35,6 +36,24 @@ import numpy as np
 
 sys.path.append('../backend')
 from backend_qtquick5 import FigureCanvasQTAggToolbar, MatplotlibIconProvider
+
+min_qt_ver='5.12.0'
+def check_qt_version(min_ver='5.12.0'):
+    qt_ver_list=PYQT_VERSION_STR.split('.')
+    qt_ver_num = int(qt_ver_list[0])*1000+int(qt_ver_list[1])*1000+int(qt_ver_list[2])
+
+    min_ver_list=min_ver.split('.')
+    min_ver= int(min_ver_list[0])*1000+int(min_ver_list[1])*1000+int(min_ver_list[2])
+
+    if qt_ver_num >= min_ver:
+        return 1
+    else:
+        return 0
+
+if(check_qt_version(min_qt_ver) == 0):
+    print("Request MIN PyQT version is {}".format(min_qt_ver))
+    quit(-1)
+
 
 class DataSerie(object):
 
